@@ -1,0 +1,13 @@
+[package]
+name = "fingerprint-struct"
+version = "0.0.1"
+edition = "2021"
+
+[dependencies]
+digest = { version = "0.10.5", default-features = false }
+
+[features]
+default = ["std"]
+
+std = ["alloc"]
+alloc = []
