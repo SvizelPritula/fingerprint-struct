@@ -9,3 +9,5 @@ use digest::Update;
 pub trait Fingerprint {
     fn fingerprint<U: Update>(&self, hasher: &mut U);
 }
+
+pub use fingerprint_struct_derive::Fingerprint;
