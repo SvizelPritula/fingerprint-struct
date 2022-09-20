@@ -5,32 +5,45 @@ use fingerprint_struct::Fingerprint;
 struct Color(u8, u8, u8);
 
 #[derive(Fingerprint)]
-struct Ball {
-    pub x: isize,
-    pub y: isize,
-    pub fill_type: FillType,
+struct Point {
+    x: i32,
+    y: i32,
 }
 
 #[derive(Fingerprint)]
-#[allow(dead_code)]
-#[repr(u16)]
-enum FillType {
-    Color(Color),
-    Gradient(Color, Color),
-    Shape { name: String, offset: u32 },
-    Transparent,
+enum Shape {
+    Background,
+    Line(Point, Point),
+    Circle { center: Point, radius: u32 },
+}
+
+#[derive(Fingerprint)]
+struct Object {
+    shape: Shape,
+    color: Color,
 }
 
 fn main() {
-    let point = Ball {
-        x: 100,
-        y: -50,
-        fill_type: FillType::Gradient(Color(123, 36, 28), Color(91, 44, 111)),
-    };
+    let shapes = vec![
+        Object {
+            shape: Shape::Background,
+            color: Color(0xff, 0xff, 0xff),
+        },
+        Object {
+            shape: Shape::Circle {
+                center: Point { x: 0, y: 0 },
+                radius: 20,
+            },
+            color: Color(0xff, 0x00, 0x33),
+        },
+        Object {
+            shape: Shape::Line(Point { x: 0, y: 20 }, Point { x: 0, y: -20 }),
+            color: Color(0x22, 0x22, 0x22),
+        },
+    ];
 
     let mut hasher = MockDigest::default();
-    point.fingerprint(&mut hasher);
-
+    shapes.fingerprint(&mut hasher);
     println!("{:?}", hasher.as_bytes());
 }
 
@@ -46,7 +59,6 @@ impl MockDigest {
 }
 
 impl Update for MockDigest {
-    #[inline]
     fn update(&mut self, data: &[u8]) {
         self.bytes.extend_from_slice(data)
     }
