@@ -79,6 +79,8 @@ impl_primitive!(u16);
 impl_primitive!(u32);
 impl_primitive!(u64);
 impl_primitive!(u128);
+impl_primitive!(f32);
+impl_primitive!(f64);
 
 macro_rules! impl_through_cast {
     ($type: ty, $cast: ty) => {

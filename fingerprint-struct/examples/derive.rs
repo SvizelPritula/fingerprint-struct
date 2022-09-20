@@ -6,8 +6,8 @@ struct Color(u8, u8, u8);
 
 #[derive(Fingerprint)]
 struct Point {
-    x: i32,
-    y: i32,
+    x: f32,
+    y: f32,
 }
 
 #[derive(Fingerprint)]
@@ -31,13 +31,13 @@ fn main() {
         },
         Object {
             shape: Shape::Circle {
-                center: Point { x: 0, y: 0 },
+                center: Point { x: 0., y: 0. },
                 radius: 20,
             },
             color: Color(0xff, 0x00, 0x33),
         },
         Object {
-            shape: Shape::Line(Point { x: 0, y: 20 }, Point { x: 0, y: -20 }),
+            shape: Shape::Line(Point { x: 0., y: 20.5 }, Point { x: 0., y: -20.5 }),
             color: Color(0x22, 0x22, 0x22),
         },
     ];
