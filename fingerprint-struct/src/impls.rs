@@ -267,21 +267,9 @@ impl_string_like!(str);
 impl_string_like!(alloc::string::String);
 
 #[cfg(feature = "std")]
-macro_rules! impl_cstring_like {
-    ($type: ty, $func: ident) => {
-        impl Fingerprint for $type {
-            #[inline]
-            fn fingerprint<U: Update>(&self, hasher: &mut U) {
-                hasher.update(self.to_bytes_with_nul());
-            }
-        }
-    };
-}
-
+impl_method!(std::ffi::CStr, to_bytes_with_nul());
 #[cfg(feature = "std")]
-impl_cstring_like!(std::ffi::CStr, to_bytes);
-#[cfg(feature = "std")]
-impl_cstring_like!(std::ffi::CString, to_bytes);
+impl_method!(std::ffi::CString, to_bytes_with_nul());
 
 impl<T: Fingerprint> Fingerprint for Option<T> {
     #[inline]
