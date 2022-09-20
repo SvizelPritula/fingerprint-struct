@@ -10,4 +10,5 @@ pub trait Fingerprint {
     fn fingerprint<U: Update>(&self, hasher: &mut U);
 }
 
+#[cfg(feature = "derive")]
 pub use fingerprint_struct_derive::Fingerprint;
