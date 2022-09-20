@@ -1,3 +1,5 @@
+use core::hash::Hash;
+
 use crate::Fingerprint;
 use digest::Update;
 
@@ -25,7 +27,7 @@ macro_rules! impl_inner {
 
 macro_rules! impl_deref {
     ($type: ty) => {
-        impl<T: Fingerprint> Fingerprint for $type {
+        impl<T: Fingerprint + ?Sized> Fingerprint for $type {
             #[inline(always)]
             fn fingerprint<U: Update>(&self, hasher: &mut U) {
                 (**self).fingerprint(hasher);
@@ -117,6 +119,7 @@ impl_through_from!(core::num::NonZeroU8, u8);
 impl_through_from!(core::num::NonZeroU16, u16);
 impl_through_from!(core::num::NonZeroU32, u32);
 impl_through_from!(core::num::NonZeroU64, u64);
+impl_through_from!(core::num::NonZeroU128, u128);
 impl_through_from!(core::num::NonZeroUsize, usize);
 
 impl_method!(
@@ -308,7 +311,7 @@ impl<T: Fingerprint, E: Fingerprint> Fingerprint for Result<T, E> {
     }
 }
 
-impl<T> Fingerprint for core::marker::PhantomData<T> {
+impl<T: ?Sized> Fingerprint for core::marker::PhantomData<T> {
     #[inline]
     fn fingerprint<U: Update>(&self, _hasher: &mut U) {}
 }
@@ -340,8 +343,8 @@ impl_ordered_seq!(alloc::collections::VecDeque<T>);
 
 #[cfg(feature = "alloc")]
 macro_rules! impl_unordered_seq {
-    ($type: ty) => {
-        impl<T: Fingerprint + Ord> Fingerprint for $type {
+    ($type: ty $(,$bound: tt)*) => {
+        impl<T: Fingerprint + Ord $(+ $bound)*> Fingerprint for $type {
             #[inline]
             fn fingerprint<U: Update>(&self, hasher: &mut U) {
                 let mut vec: alloc::vec::Vec<&T> = self.iter().collect();
@@ -356,7 +359,32 @@ macro_rules! impl_unordered_seq {
 #[cfg(feature = "alloc")]
 impl_unordered_seq!(alloc::collections::BinaryHeap<T>);
 #[cfg(feature = "std")]
-impl_unordered_seq!(std::collections::HashSet<T>);
+impl_unordered_seq!(std::collections::HashSet<T>, Eq, Hash);
+
+#[cfg(feature = "alloc")]
+impl<K: Fingerprint + Ord, V: Fingerprint> Fingerprint for alloc::collections::BTreeMap<K, V> {
+    #[inline]
+    fn fingerprint<U: Update>(&self, hasher: &mut U) {
+        self.len().fingerprint(hasher);
+
+        for element in self.iter() {
+            element.fingerprint(hasher);
+        }
+    }
+}
+
+#[cfg(feature = "std")]
+impl<K: Fingerprint + Ord + Eq + Hash, V: Fingerprint> Fingerprint
+    for std::collections::HashMap<K, V>
+{
+    #[inline]
+    fn fingerprint<U: Update>(&self, hasher: &mut U) {
+        let mut vec: alloc::vec::Vec<(&K, &V)> = self.iter().collect();
+        vec.sort_by_key(|t| t.0);
+
+        vec.fingerprint(hasher);
+    }
+}
 
 impl<T: Fingerprint> Fingerprint for core::ops::Range<T> {
     #[inline]
@@ -395,7 +423,7 @@ impl<T: Fingerprint> Fingerprint for core::ops::Bound<T> {
 
 impl_method!(core::time::Duration, as_nanos());
 
-#[cfg(feature = "std")]
+#[cfg(all(feature = "std", feature = "os"))]
 impl Fingerprint for std::time::SystemTime {
     #[inline]
     fn fingerprint<U: Update>(&self, hasher: &mut U) {
@@ -449,6 +477,8 @@ impl Fingerprint for std::net::SocketAddrV6 {
     fn fingerprint<U: Update>(&self, hasher: &mut U) {
         self.ip().fingerprint(hasher);
         self.port().fingerprint(hasher);
+        self.flowinfo().fingerprint(hasher);
+        self.scope_id().fingerprint(hasher);
     }
 }
 
