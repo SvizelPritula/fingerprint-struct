@@ -1,9 +1,8 @@
-use std::{
-    marker::PhantomData,
-    net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6},
-    ops::Bound,
-    time::Duration,
-};
+#![cfg_attr(not(feature = "std"), no_std)]
+
+use core::{marker::PhantomData, ops::Bound, time::Duration};
+#[cfg(feature = "std")]
+use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV4, SocketAddrV6};
 
 #[cfg(all(feature = "std", feature = "os"))]
 use std::time::SystemTime;
@@ -63,7 +62,7 @@ fn fingerprint_duration() {
 }
 
 #[test]
-#[cfg_attr(not(feature = "os"), ignore)]
+#[cfg_attr(not(all(feature = "std", feature = "os")), ignore)]
 fn fingerprint_system_time() {
     #[cfg(feature = "os")]
     {
@@ -79,21 +78,29 @@ fn fingerprint_system_time() {
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_ip_address() {
-    let address = Ipv4Addr::new(192, 168, 0, 1);
-    assert_same_fingerprint(IpAddr::V4(address), (4u8, address));
+    #[cfg(feature = "std")]
+    {
+        let address = Ipv4Addr::new(192, 168, 0, 1);
+        assert_same_fingerprint(IpAddr::V4(address), (4u8, address));
 
-    let address = Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8);
-    assert_same_fingerprint(IpAddr::V6(address), (6u8, address));
+        let address = Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8);
+        assert_same_fingerprint(IpAddr::V6(address), (6u8, address));
+    }
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_ipv4_address() {
+    #[cfg(feature = "std")]
     assert_same_fingerprint(Ipv4Addr::new(192, 168, 0, 1), (192u8, 168u8, 0u8, 1u8));
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_ipv6_address() {
+    #[cfg(feature = "std")]
     assert_same_fingerprint(
         Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8),
         0x00010002000300040005000600070008u128.to_be_bytes(),
@@ -101,16 +108,22 @@ fn fingerprint_ipv6_address() {
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_socket_address() {
-    let address = SocketAddrV4::new(Ipv4Addr::new(192, 168, 0, 1), 8080);
-    assert_same_fingerprint(SocketAddr::V4(address), (4u8, address));
+    #[cfg(feature = "std")]
+    {
+        let address = SocketAddrV4::new(Ipv4Addr::new(192, 168, 0, 1), 8080);
+        assert_same_fingerprint(SocketAddr::V4(address), (4u8, address));
 
-    let address = SocketAddrV6::new(Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8), 8080, 1, 2);
-    assert_same_fingerprint(SocketAddr::V6(address), (6u8, address));
+        let address = SocketAddrV6::new(Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8), 8080, 1, 2);
+        assert_same_fingerprint(SocketAddr::V6(address), (6u8, address));
+    }
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_socketv4_address() {
+    #[cfg(feature = "std")]
     assert_same_fingerprint(
         SocketAddrV4::new(Ipv4Addr::new(192, 168, 0, 1), 8080),
         ((192u8, 168u8, 0u8, 1u8), 8080u16),
@@ -118,7 +131,9 @@ fn fingerprint_socketv4_address() {
 }
 
 #[test]
+#[cfg_attr(not(feature = "std"), ignore)]
 fn fingerprint_socketv6_address() {
+    #[cfg(feature = "std")]
     assert_same_fingerprint(
         SocketAddrV6::new(Ipv6Addr::new(1, 2, 3, 4, 5, 6, 7, 8), 8080, 1, 2),
         (

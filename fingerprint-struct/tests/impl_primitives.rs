@@ -1,3 +1,5 @@
+#![cfg_attr(not(feature = "std"), no_std)]
+
 use fingerprint_struct::Fingerprint;
 use mock_digest::MockDigest;
 

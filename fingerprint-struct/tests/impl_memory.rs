@@ -1,4 +1,10 @@
-use std::{borrow::Cow, cell::Cell, rc::Rc, sync::Arc};
+#![cfg_attr(not(feature = "std"), no_std)]
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
+#[cfg(feature = "alloc")]
+use alloc::{borrow::Cow, rc::Rc, sync::Arc, boxed::Box};
+use core::cell::Cell;
 
 use fingerprint_struct::Fingerprint;
 use mock_digest::MockDigest;
@@ -24,22 +30,30 @@ fn fingerprint_ref_mut() {
 }
 
 #[test]
+#[cfg_attr(not(feature = "alloc"), ignore)]
 fn fingerprint_box() {
+    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Box::new(42), 42);
 }
 
 #[test]
+#[cfg_attr(not(feature = "alloc"), ignore)]
 fn fingerprint_rc() {
+    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Rc::new(42), 42);
 }
 
 #[test]
+#[cfg_attr(not(feature = "alloc"), ignore)]
 fn fingerprint_arc() {
+    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Arc::new(42), 42);
 }
 
 #[test]
+#[cfg_attr(not(feature = "alloc"), ignore)]
 fn fingerprint_cow() {
+    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Cow::Borrowed(&42), 42);
 }
 

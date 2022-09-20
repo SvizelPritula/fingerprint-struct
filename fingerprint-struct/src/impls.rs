@@ -1,3 +1,4 @@
+#[allow(unused_imports)]
 use core::hash::Hash;
 
 use crate::Fingerprint;
