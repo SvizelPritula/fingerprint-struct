@@ -8,6 +8,8 @@ digest = { version = "0.10.5", default-features = false }
 fingerprint-struct-derive = { version = "0.0.1", path = "../fingerprint-struct-derive", optional = true }
 
 [dev-dependencies]
+blake2 = "0.10.4"
+hex = "0.4.3"
 mock-digest = { version = "0.0.1", path = "../mock-digest" }
 
 [features]
