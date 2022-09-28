@@ -13,7 +13,7 @@ hex = "0.4.3"
 mock-digest = { version = "0.0.1", path = "../mock-digest" }
 
 [features]
-default = ["std"]
+default = ["std", "derive"]
 
 std = ["alloc"]
 alloc = []
