@@ -2,7 +2,7 @@ use proc_macro2::{Ident, TokenStream};
 use quote::quote;
 use syn::{punctuated::Punctuated, token::Comma, Attribute, DataEnum, Fields, Variant};
 
-use crate::utils::{get_field_names, get_unnamed_field_names};
+use crate::utils::{get_field_names, get_unnamed_field_names, hasher_arg};
 
 use self::discriminant::{add_discriminant, get_int_repr};
 
@@ -42,11 +42,13 @@ fn get_match_arm(
     let body = get_match_body(&fields);
     let pattern = get_match_pattern(&fields);
 
+    let hasher_arg = hasher_arg();
+
     quote!(
         #enum_name::#ident #pattern => {
             {
                 let discriminant: ::core::primitive::#int_repr = #discriminant;
-                discriminant.fingerprint(hasher);
+                discriminant.fingerprint(#hasher_arg);
             }
             #body
         }
@@ -72,13 +74,15 @@ fn get_match_pattern(fields: &Fields) -> TokenStream {
 }
 
 fn get_match_body(fields: &Fields) -> TokenStream {
+    let hasher_arg = hasher_arg();
+
     match fields {
         Fields::Named(fields) => {
             let idents = get_field_names(fields);
 
             let statements = idents.map(|ident| {
                 quote! {
-                    #ident.fingerprint(hasher);
+                    #ident.fingerprint(#hasher_arg);
                 }
             });
 
@@ -89,7 +93,7 @@ fn get_match_body(fields: &Fields) -> TokenStream {
 
             let statements = idents.map(|ident| {
                 quote! {
-                    #ident.fingerprint(hasher);
+                    #ident.fingerprint(#hasher_arg);
                 }
             });
 

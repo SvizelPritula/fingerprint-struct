@@ -4,6 +4,7 @@ use syn::{parse_macro_input, DeriveInput};
 
 use enums::get_enum_fn_body;
 use structs::get_struct_body;
+use utils::hasher_arg;
 
 mod enums;
 mod generics;
@@ -32,9 +33,11 @@ pub fn derive_fingerprint(tokens: proc_macro::TokenStream) -> proc_macro::TokenS
         syn::Data::Union(_) => quote!(compile_error!("cannot derive Fingerprint for an union")),
     };
 
+    let hasher_arg = hasher_arg();
+
     quote! {
         impl <#generic_params_impl> ::fingerprint_struct::Fingerprint for #ident <#generic_params_type> where #where_bounds {
-            fn fingerprint<U: ::digest::Update>(&self, hasher: &mut U) {
+            fn fingerprint<U: ::digest::Update>(&self, #hasher_arg: &mut U) {
                 #body
             }
         }

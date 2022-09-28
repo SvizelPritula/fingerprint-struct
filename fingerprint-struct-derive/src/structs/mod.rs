@@ -2,10 +2,12 @@ use proc_macro2::TokenStream;
 use quote::quote;
 use syn::{DataStruct, Fields, Index};
 
-use crate::utils::get_field_names;
+use crate::{utils::get_field_names, hasher_arg};
 
 pub fn get_struct_body(data: DataStruct) -> TokenStream {
     let DataStruct { fields, .. } = data;
+
+    let hasher_arg = hasher_arg();
 
     match fields {
         Fields::Named(fields) => {
@@ -13,7 +15,7 @@ pub fn get_struct_body(data: DataStruct) -> TokenStream {
 
             let statements = idents.map(|ident| {
                 quote! {
-                    self.#ident.fingerprint(hasher);
+                    self.#ident.fingerprint(#hasher_arg);
                 }
             });
 
@@ -25,7 +27,7 @@ pub fn get_struct_body(data: DataStruct) -> TokenStream {
 
             let statements = numbers.map(|num| {
                 quote! {
-                    self.#num.fingerprint(hasher);
+                    self.#num.fingerprint(#hasher_arg);
                 }
             });
 
