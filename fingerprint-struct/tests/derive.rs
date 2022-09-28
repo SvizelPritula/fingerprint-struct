@@ -3,6 +3,7 @@
 use fingerprint_struct::Fingerprint;
 use mock_digest::MockDigest;
 
+#[allow(dead_code)] // When all derive tests are disabled
 fn assert_same_fingerprint<A: Fingerprint, B: Fingerprint>(a: A, b: B) {
     let mut hasher_a = MockDigest::default();
     a.fingerprint(&mut hasher_a);
@@ -14,6 +15,7 @@ fn assert_same_fingerprint<A: Fingerprint, B: Fingerprint>(a: A, b: B) {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_unit() {
     #[derive(Fingerprint)]
     struct Struct;
@@ -22,6 +24,7 @@ fn derive_struct_unit() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_tuple() {
     #[derive(Fingerprint)]
     struct Struct(u8, u16, u32);
@@ -30,6 +33,7 @@ fn derive_struct_tuple() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_fields() {
     #[derive(Fingerprint)]
     struct Struct {
@@ -42,6 +46,7 @@ fn derive_struct_fields() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_enum_unit() {
     #[derive(Fingerprint)]
     enum Enum {
@@ -56,6 +61,7 @@ fn derive_enum_unit() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_enum_unit_discriminant() {
     #[repr(u16)]
     #[derive(Fingerprint)]
@@ -73,6 +79,7 @@ fn derive_enum_unit_discriminant() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_enum_tuple() {
     #[derive(Fingerprint)]
     enum Enum {
@@ -85,6 +92,7 @@ fn derive_enum_tuple() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_enum_fields() {
     #[derive(Fingerprint)]
     enum Enum {
@@ -97,6 +105,7 @@ fn derive_enum_fields() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_enum_field_named_hasher() {
     #[derive(Fingerprint)]
     enum Enum {
@@ -107,6 +116,7 @@ fn derive_enum_field_named_hasher() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_generic() {
     #[derive(Fingerprint)]
     struct Struct<T>(T);
@@ -115,6 +125,7 @@ fn derive_struct_generic() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_generic_bound() {
     #[derive(Fingerprint)]
     struct Struct<T: From<u8>>(T);
@@ -123,6 +134,7 @@ fn derive_struct_generic_bound() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_generic_where() {
     #[derive(Fingerprint)]
     struct Struct<T>(T)
@@ -133,6 +145,7 @@ fn derive_struct_generic_where() {
 }
 
 #[test]
+#[cfg(feature = "derive")]
 fn derive_struct_generic_as_field_generic() {
     #[derive(Fingerprint)]
     struct Struct<T>(Option<T>);

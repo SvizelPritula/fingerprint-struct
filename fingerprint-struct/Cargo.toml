@@ -13,7 +13,7 @@ hex = "0.4.3"
 mock-digest = { version = "0.0.1", path = "../mock-digest" }
 
 [features]
-default = ["std", "derive"]
+default = ["std"]
 
 std = ["alloc"]
 alloc = []
@@ -35,4 +35,4 @@ name = "custom_impl"
 
 [[example]]
 name = "derive"
-required-features = ["std"]
+required-features = ["std", "derive"]
