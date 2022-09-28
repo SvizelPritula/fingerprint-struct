@@ -19,3 +19,20 @@ std = ["alloc"]
 alloc = []
 os = []
 derive = ["fingerprint-struct-derive"]
+
+[[example]]
+name = "hello_world"
+
+[[example]]
+name = "multiple_values"
+
+[[example]]
+name = "complex_types"
+required-features = ["std"]
+
+[[example]]
+name = "custom_impl"
+
+[[example]]
+name = "derive"
+required-features = ["std"]
