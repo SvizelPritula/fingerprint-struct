@@ -17,9 +17,9 @@ impl Reset for MockDigest {
     }
 }
 
-impl Into<Vec<u8>> for MockDigest {
-    fn into(self) -> Vec<u8> {
-        self.input
+impl From<MockDigest> for Vec<u8> {
+    fn from(src: MockDigest) -> Self {
+        src.input
     }
 }
 

@@ -11,7 +11,7 @@ mod discriminant;
 pub fn get_enum_fn_body(data: DataEnum, name: &Ident, attrs: Vec<Attribute>) -> TokenStream {
     let DataEnum { variants, .. } = data;
 
-    if variants.len() == 0 {
+    if variants.is_empty() {
         return TokenStream::default();
     }
 

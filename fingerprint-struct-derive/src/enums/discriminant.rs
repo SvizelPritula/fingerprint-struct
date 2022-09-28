@@ -55,7 +55,7 @@ const PRIMITIVE_NAMES: [&str; 12] = [
 pub fn get_int_repr(attrs: Vec<Attribute>) -> TokenStream {
     let mut repr: Option<Path> = None;
 
-    for meta in attrs.iter().map(extract_repr_arguments).flatten() {
+    for meta in attrs.iter().flat_map(extract_repr_arguments) {
         if let NestedMeta::Meta(Meta::Path(path)) = meta {
             if PRIMITIVE_NAMES.iter().any(|p| check_ident_name(&path, p)) {
                 repr = Some(path);

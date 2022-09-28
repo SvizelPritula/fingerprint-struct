@@ -49,9 +49,9 @@ fn get_where_bounds_from_params(generics: &Generics) -> Punctuated<TokenStream, 
     let bounds: Punctuated<TokenStream, Token!(,)> = generics
         .params
         .iter()
-        .map(|param| match param {
+        .flat_map(|param| match param {
             syn::GenericParam::Type(TypeParam { ident, bounds, .. }) => {
-                if bounds.len() > 0 {
+                if !bounds.is_empty() {
                     Some(quote!(#ident: #bounds))
                 } else {
                     None
@@ -60,7 +60,7 @@ fn get_where_bounds_from_params(generics: &Generics) -> Punctuated<TokenStream, 
             syn::GenericParam::Lifetime(LifetimeDef {
                 lifetime, bounds, ..
             }) => {
-                if bounds.len() > 0 {
+                if !bounds.is_empty() {
                     Some(quote!(#lifetime: #bounds))
                 } else {
                     None
@@ -68,7 +68,6 @@ fn get_where_bounds_from_params(generics: &Generics) -> Punctuated<TokenStream, 
             }
             syn::GenericParam::Const(_) => None,
         })
-        .filter_map(|b| b)
         .collect();
 
     bounds
