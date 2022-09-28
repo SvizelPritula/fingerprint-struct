@@ -36,16 +36,14 @@ fn fingerprint_array_slice() {
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_string() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint("příklad".to_string(), "příklad");
 }
 
 #[test]
-#[cfg_attr(not(feature = "std"), ignore)]
+#[cfg(feature = "std")]
 fn fingerprint_cstr() {
-    #[cfg(feature = "std")]
     {
         let str = CString::new("příklad").unwrap();
 
@@ -57,62 +55,52 @@ fn fingerprint_cstr() {
 }
 
 #[test]
-#[cfg_attr(not(feature = "std"), ignore)]
+#[cfg(feature = "std")]
 fn fingerprint_cstring() {
-    #[cfg(feature = "std")]
-    {
-        let str = CString::new("příklad").unwrap();
+    let str = CString::new("příklad").unwrap();
 
-        assert_same_fingerprint(str.clone(), str.as_c_str());
-    }
+    assert_same_fingerprint(str.clone(), str.as_c_str());
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_vec() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(vec![1u8, 2u8, 3u8, 4u8], &[4u8, 1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_linked_list() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(LinkedList::from([1, 2, 3, 4]), vec![1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_vec_deque() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(VecDeque::from([1, 2, 3, 4]), vec![1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_btree_set() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(BTreeSet::from([4, 2, 3, 1]), vec![1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_binary_heap() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(BinaryHeap::from([4, 2, 3, 1]), vec![1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "std"), ignore)]
+#[cfg(feature = "std")]
 fn fingerprint_hash_set() {
-    #[cfg(feature = "std")]
     assert_same_fingerprint(HashSet::from([4, 2, 3, 1]), vec![1, 2, 3, 4]);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_btree_map() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(
         BTreeMap::<u32, i16>::from([(4, 1), (2, 2), (3, 3), (1, 4)]),
         Vec::<(u32, i16)>::from([(1, 4), (2, 2), (3, 3), (4, 1)]),
@@ -120,9 +108,8 @@ fn fingerprint_btree_map() {
 }
 
 #[test]
-#[cfg_attr(not(feature = "std"), ignore)]
+#[cfg(feature = "std")]
 fn fingerprint_hash_map() {
-    #[cfg(feature = "std")]
     assert_same_fingerprint(
         HashMap::<u32, i16>::from([(4, 1), (2, 2), (3, 3), (1, 4)]),
         Vec::<(u32, i16)>::from([(1, 4), (2, 2), (3, 3), (4, 1)]),

@@ -30,30 +30,26 @@ fn fingerprint_ref_mut() {
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_box() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Box::new(42), 42);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_rc() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Rc::new(42), 42);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_arc() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Arc::new(42), 42);
 }
 
 #[test]
-#[cfg_attr(not(feature = "alloc"), ignore)]
+#[cfg(feature = "alloc")]
 fn fingerprint_cow() {
-    #[cfg(feature = "alloc")]
     assert_same_fingerprint(Cow::Borrowed(&42), 42);
 }
 
