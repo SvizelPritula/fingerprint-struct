@@ -44,3 +44,9 @@ name = "custom_impl"
 [[example]]
 name = "derive"
 required-features = ["std", "derive"]
+
+[[example]]
+name = "with_prefix"
+
+[[example]]
+name = "with_version"
