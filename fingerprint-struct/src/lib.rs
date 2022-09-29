@@ -6,11 +6,11 @@
 //! Hashes are considered stable, changes to how a given data structure is hashed will cause
 //! a minor version bump. Note that a change to your own types might introduce hash collisions.
 //! To avoid this, include a version identifier in your data stucture, like this:
-//! 
+//!
 //! ```
 //! use blake2::Blake2b512;
 //! use fingerprint_struct::fingerprint;
-//! 
+//!
 //! let payload = "Hello world!";
 //! let hash = fingerprint::<Blake2b512>((env!("CARGO_PKG_VERSION"), payload));
 //! ```

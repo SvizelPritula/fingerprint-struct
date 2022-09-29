@@ -2,7 +2,7 @@ use proc_macro2::TokenStream;
 use quote::quote;
 use syn::{DataStruct, Fields, Index};
 
-use crate::{utils::get_field_names, hasher_arg};
+use crate::{hasher_arg, utils::get_field_names};
 
 pub fn get_struct_body(data: DataStruct) -> TokenStream {
     let DataStruct { fields, .. } = data;

@@ -3,7 +3,7 @@
 extern crate alloc;
 
 #[cfg(feature = "alloc")]
-use alloc::{borrow::Cow, rc::Rc, sync::Arc, boxed::Box};
+use alloc::{borrow::Cow, boxed::Box, rc::Rc, sync::Arc};
 use core::cell::Cell;
 
 use fingerprint_struct::Fingerprint;
