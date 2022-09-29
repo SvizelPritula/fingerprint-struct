@@ -3,8 +3,17 @@
 //! This crate provides the [`Fingerprint`] trait, as well as implementations for [`std`] types and
 //! a derive macro for generating implementations automatically.
 //!
-//! Hashes are considered stable, changes to how a given data structure is hashed will cause a minor
-//! version bump.
+//! Hashes are considered stable, changes to how a given data structure is hashed will cause
+//! a minor version bump. Note that a change to your own types might introduce hash collisions.
+//! To avoid this, include a version identifier in your data stucture, like this:
+//! 
+//! ```
+//! use blake2::Blake2b512;
+//! use fingerprint_struct::fingerprint;
+//! 
+//! let payload = "Hello world!";
+//! let hash = fingerprint::<Blake2b512>((env!("CARGO_PKG_VERSION"), payload));
+//! ```
 
 #![cfg_attr(not(feature = "std"), no_std)]
 #[cfg(feature = "alloc")]
@@ -52,7 +61,7 @@ pub fn fingerprint<H: Update + FixedOutput + Default>(value: impl Fingerprint) -
 /// use blake2::{digest::Digest, Blake2b512};
 /// use fingerprint_struct::{fingerprint_with, Fingerprint};
 ///
-/// let hash = fingerprint_with("Hello world!", Blake2b512::new_with_prefix("Blake2 prefix example"));
+/// let hash = fingerprint_with("Hello world!", Blake2b512::new_with_prefix("Application specific prefix"));
 /// println!("{hash:?}");
 /// ```
 pub fn fingerprint_with<H: Update + FixedOutput, T: Fingerprint>(
