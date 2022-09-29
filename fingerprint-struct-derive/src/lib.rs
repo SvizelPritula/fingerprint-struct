@@ -1,3 +1,7 @@
+//! This crate provides the implementation of the [`Fingerprint`] derive macro.
+//! 
+//! It's reexported by the `fingerprint-struct` crate when the `derive` feature flag is enabled.
+
 use generics::{get_generic_parameters, get_where_bounds, GenericParamType};
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput};
