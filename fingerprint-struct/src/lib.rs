@@ -86,6 +86,7 @@ pub fn fingerprint_with<H: Update + FixedOutput, T: Fingerprint>(
 /// ```
 /// use fingerprint_struct::Fingerprint;
 ///
+/// # #[cfg(feature = "alloc")]
 /// #[derive(Fingerprint)]
 /// struct SearchResult {
 ///     title: String,
@@ -97,6 +98,7 @@ pub fn fingerprint_with<H: Update + FixedOutput, T: Fingerprint>(
 /// ```
 /// use fingerprint_struct::Fingerprint;
 ///
+/// # #[cfg(feature = "alloc")]
 /// #[derive(Fingerprint)]
 /// enum LoginState {
 ///     LoggedOut,
