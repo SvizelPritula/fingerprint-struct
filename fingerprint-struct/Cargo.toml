@@ -1,6 +1,6 @@
 [package]
 name = "fingerprint-struct"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Benjamin Swart <Benjaminswart@email.cz>"]
 categories = ["cryptography", "no-std"]
 description = "Utilities for hashing data structutes"
@@ -12,13 +12,13 @@ rust-version = "1.63"
 
 [dependencies]
 digest = { version = "0.10.5", default-features = false }
-fingerprint-struct-derive = { version = "0.0.1", path = "../fingerprint-struct-derive", optional = true }
+fingerprint-struct-derive = { version = "0.1.0", path = "../fingerprint-struct-derive", optional = true }
 
 [dev-dependencies]
 blake2 = "0.10.4"
 sha2 = "0.10.6"
 hex = "0.4.3"
-mock-digest = { version = "0.0.1", path = "../mock-digest" }
+mock-digest = { version = "0.1.0", path = "../mock-digest" }
 
 [features]
 default = ["std", "derive"]

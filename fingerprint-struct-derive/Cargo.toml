@@ -1,6 +1,6 @@
 [package]
 name = "fingerprint-struct-derive"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["Benjamin Swart <Benjaminswart@email.cz>"]
 description = "Derive macro for fingerprint-struct"
 documentation = "https://docs.rs/fingerprint-struct/"

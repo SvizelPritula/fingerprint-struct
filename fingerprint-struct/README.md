@@ -14,7 +14,7 @@ Add the following lines to `Cargo.toml`:
 
 ```toml
 [dependencies]
-fingerprint-struct = "0.0.1"
+fingerprint-struct = "0.1.0"
 ```
 
 or run:
@@ -63,12 +63,12 @@ This crate supports `no_std` environments. Simply disable the default `std` feat
 
 ```toml
 [dependencies]
-fingerprint-struct = { version = "0.0.1", default-features = false, features = ["derive"] }
+fingerprint-struct = { version = "0.1.0", default-features = false, features = ["derive"] }
 ```
 
 You can also optionally enable the `alloc` feature on targets that don't support `std` but support `alloc`:
 
 ```toml
 [dependencies]
-fingerprint-struct = { version = "0.0.1", default-features = false, features = ["alloc", "derive"] }
+fingerprint-struct = { version = "0.1.0", default-features = false, features = ["alloc", "derive"] }
 ```
