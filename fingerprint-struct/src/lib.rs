@@ -1,10 +1,7 @@
 //! This crate allows for the computation of cryptographic hashes or arbitrary data structures.
 //!
-//! It provides a `Fingerprint` trait which represents a type whose hash can be computed.
-//! It's implemented by default for most common types from `std`, such as primitives like `u32`
-//! or `bool`, collections like `Vec` or `BTreeSet`, pointers like `Box` or `Rc` or specialized
-//! types like `IpAddress`. It also provides a derive macro which generates a `Fingerprint`
-//! implementation for any struct or enum.
+//! It provides a [`Fingerprint`] trait which represents a type whose hash can be computed.
+//! It's implemented by default for most common types from [`std`].
 //!
 //! Hashes are considered stable, changes to how a given data structure is hashed will cause
 //! a minor version bump. Note that making a change to your own type definitions might introduce
