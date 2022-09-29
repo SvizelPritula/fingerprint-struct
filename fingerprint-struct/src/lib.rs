@@ -23,7 +23,14 @@ pub trait Fingerprint {
     fn fingerprint<U: Update>(&self, hasher: &mut U);
 }
 
-pub fn fingerprint<H: Update + FixedOutput, T: Fingerprint>(value: T, mut hasher: H) -> Output<H> {
+pub fn fingerprint<H: Update + FixedOutput + Default, T: Fingerprint>(value: T) -> Output<H> {
+    fingerprint_with(value, H::default())
+}
+
+pub fn fingerprint_with<H: Update + FixedOutput, T: Fingerprint>(
+    value: T,
+    mut hasher: H,
+) -> Output<H> {
     value.fingerprint(&mut hasher);
     hasher.finalize_fixed()
 }
