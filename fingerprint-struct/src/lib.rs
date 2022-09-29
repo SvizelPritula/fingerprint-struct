@@ -5,7 +5,7 @@
 //!
 //! Hashes are considered stable, changes to how a given data structure is hashed will cause
 //! a minor version bump. Note that a change to your own types might introduce hash collisions.
-//! To avoid this, include a version identifier in your data stucture, like this:
+//! To avoid this, include a version identifier in your data structure, like this:
 //!
 //! ```
 //! use blake2::Blake2b512;
@@ -26,7 +26,7 @@ use digest::{FixedOutput, Output, Update};
 /// A data structure whose cryptographic hash can be computed by a hasher.
 ///
 /// Implementations are provided for common [`std`] types, such as primitives, strings, collections and smart pointers.
-/// Custom implementations can be easly written manually, or automaticaly using `#[derive(Fingerprint)]`.
+/// Custom implementations can be easily written manually, or automatically using `#[derive(Fingerprint)]`.
 pub trait Fingerprint {
     /// Use this value to update a hasher.
     fn fingerprint<U: Update>(&self, hasher: &mut U);

@@ -5,7 +5,7 @@ use digest::{Reset, Update};
 
 /// A mock of the [`Update`] trait
 ///
-/// Instead of acually hashing its input, it just collects all bytes and stores them.
+/// Instead of actually hashing its input, it just collects all bytes and stores them.
 ///
 /// # Examples
 /// ```
@@ -32,7 +32,7 @@ impl Update for MockDigest {
 }
 
 impl Reset for MockDigest {
-    /// Resets struct to inital state, discarding all stored bytes.
+    /// Resets hasher to initial state, discarding all stored bytes.
     fn reset(&mut self) {
         self.input = Vec::new();
     }
