@@ -11,6 +11,7 @@ fingerprint-struct-derive = { version = "0.0.1", path = "../fingerprint-struct-d
 blake2 = "0.10.4"
 hex = "0.4.3"
 mock-digest = { version = "0.0.1", path = "../mock-digest" }
+sha2 = "0.10.6"
 
 [features]
 default = ["std", "derive"]

@@ -16,5 +16,5 @@ fn main() {
     let payload = Color(0xdc, 0x14, 0x3c);
     let hash = fingerprint::<Blake2b512>(payload);
     let hash: String = hash.encode_hex_upper();
-    println!("{}", hash);
+    println!("{hash}");
 }

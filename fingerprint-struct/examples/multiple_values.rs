@@ -11,5 +11,5 @@ fn main() {
 
     let hash = digest.finalize();
     let hash: String = hash.encode_hex_upper();
-    println!("{}", hash);
+    println!("{hash}");
 }

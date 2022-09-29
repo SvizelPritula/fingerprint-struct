@@ -45,5 +45,5 @@ fn main() {
 
     let hash = fingerprint::<Blake2b512>(payload);
     let hash: String = hash.encode_hex_upper();
-    println!("{}", hash);
+    println!("{hash}");
 }
