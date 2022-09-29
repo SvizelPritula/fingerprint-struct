@@ -31,8 +31,9 @@ use digest::{FixedOutput, Output, Update};
 
 /// A data structure whose cryptographic hash can be computed by a hasher.
 ///
-/// Implementations are provided for common [`std`] types, such as primitives, strings, collections and smart pointers.
-/// Custom implementations can be easily written manually, or automatically using `#[derive(Fingerprint)]`.
+/// Implementations are provided for common [`std`] types, such as primitives, strings, collections
+/// and smart pointers. Custom implementations can be easily written manually, or derived
+/// automatically using `#[derive(Fingerprint)]`.
 pub trait Fingerprint {
     /// Use this value to update a hasher.
     fn fingerprint<U: Update>(&self, hasher: &mut U);
