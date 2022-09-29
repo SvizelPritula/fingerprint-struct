@@ -1,7 +1,13 @@
 [package]
 name = "mock-digest"
 version = "0.0.1"
+authors = ["Benjamin Swart <Benjaminswart@email.cz>"]
+description = "Mock for the Update trait from the digest crate"
+documentation = "https://docs.rs/mock-digest/"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/SvizelPritula/fingerprint-struct"
 edition = "2021"
+rust-version = "1.63"
 
 [dependencies]
 digest = { version = "0.10.5", default-features = false }

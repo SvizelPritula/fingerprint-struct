@@ -1,7 +1,14 @@
 [package]
 name = "fingerprint-struct"
 version = "0.0.1"
+authors = ["Benjamin Swart <Benjaminswart@email.cz>"]
+categories = ["cryptography", "no-std"]
+description = "Utilities for hashing data structutes"
+documentation = "https://docs.rs/fingerprint-struct/"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/SvizelPritula/fingerprint-struct"
 edition = "2021"
+rust-version = "1.63"
 
 [dependencies]
 digest = { version = "0.10.5", default-features = false }
