@@ -1,4 +1,4 @@
-use blake2::{Blake2b512, Digest};
+use blake2::Blake2b512;
 use fingerprint_struct::{fingerprint, Fingerprint};
 use hex::ToHex;
 
@@ -14,7 +14,7 @@ impl Fingerprint for Color {
 
 fn main() {
     let payload = Color(0xdc, 0x14, 0x3c);
-    let hash = fingerprint(payload, Blake2b512::new());
+    let hash = fingerprint::<Blake2b512>(payload);
     let hash: String = hash.encode_hex_upper();
     println!("{}", hash);
 }

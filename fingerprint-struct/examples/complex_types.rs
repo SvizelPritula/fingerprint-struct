@@ -5,7 +5,7 @@ use std::{
     sync::Arc,
 };
 
-use blake2::{Blake2b512, Digest};
+use blake2::Blake2b512;
 use fingerprint_struct::fingerprint;
 use hex::ToHex;
 
@@ -21,7 +21,7 @@ fn main() {
         ))),
     );
 
-    let hash = fingerprint(payload, Blake2b512::new());
+    let hash = fingerprint::<Blake2b512>(payload);
     let hash: String = hash.encode_hex_upper();
     println!("{}", hash);
 }
